@@ -1,0 +1,9 @@
+/debug
+/GeneratedFiles
+/release
+/x64
+.qmake.stash
+QtGuiApplication1.vcxproj
+QtGuiApplication1.vcxproj.filters
+QtGuiApplication1.vcxproj.user
+/.vs
