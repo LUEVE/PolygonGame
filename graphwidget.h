@@ -25,9 +25,9 @@ public:
 
 private:
 	void repaint(int ifcontructor = 0);
-	void paintSym(QVector<Node*> nodes, Edge* edge);
+	//void paintSym(QVector<Node*> nodes, Edge* edge);
 	void changeNode(QGraphicsItem* sourceItem, QGraphicsItem* destItem);
-	void repainInBegin();
+	//void repainInBegin();
 	void ChangeInFirstTime(QGraphicsItem* item);
 
 	//void itemMoved();

@@ -4,7 +4,8 @@
 #include "qdebug.h"
 #include <QKeyEvent>
 #include <cassert>
-
+#include <solveProblem.h>
+int AnswerWidget::clickNextFlagForFirst = 0;
 
 AnswerWidget::AnswerWidget(QWidget* parent)
 	:QGraphicsView(parent), timerId(0), changeTime(1), theFirstEdge(nullptr)
@@ -19,6 +20,15 @@ AnswerWidget::AnswerWidget(std::vector<NodeData> node_datas, QWidget* parent)
 {
 	for (auto a : node_datas)
 		nodesData.push_back(a);
+	constNodesdata = nodesData;
+
+	int _finalans = 0;
+	std::vector<NodeData> temp =  SolveProblem::getAnswer(constNodesdata,_finalans);
+	qDebug() << _finalans << endl;
+	for (int i = temp.size() - 1; i >= 0; i--)
+	{
+		ansData.push(temp[i]);
+	}
 
 	beforeStepButton.setParent(this);
 	beforeStepButton.setText("before step");
@@ -26,10 +36,19 @@ AnswerWidget::AnswerWidget(std::vector<NodeData> node_datas, QWidget* parent)
 	beforeStepButton.show();
 	connect(&beforeStepButton, SIGNAL(clicked()), this, SLOT(clickBeforeStepButton()));
 
+	nextStepButton.setParent(this);
+	nextStepButton.setText("next step");
+	nextStepButton.setFont(QFont("", 20));
+	nextStepButton.move(200, 0);
+	nextStepButton.show();
+	connect(&nextStepButton, SIGNAL(clicked()), this, SLOT(clickNextStepButton()));
 
 	paintInit();
 	repaint(1);
+
 }
+
+
 
 AnswerWidget::~AnswerWidget()
 {
@@ -79,21 +98,16 @@ bool AnswerWidget::getEdgeKind(Node* node)
 	if (flag)
 		return kind;
 	assert(-1);
-	qDebug() << "diao-------" << '\n';
 	return false;
 }
 
 
 bool AnswerWidget::getEdgeKind(NodeData nodedata)
 {
-
-
 	return nodedata.kind;
-
-
 }
 
-void AnswerWidget::repaint(int ifcontructor)
+void AnswerWidget::repaint(int ifconstructor)
 {
 
 	scene()->clear();
@@ -112,11 +126,6 @@ void AnswerWidget::repaint(int ifcontructor)
 
 		scene()->addText(QString::number(nodesData[i].v), font)->setPos({ nodesData[i].x, nodesData[i].y });
 	}
-	//
-	if (ifcontructor) {
-		for (auto &a : nodesData) a.kind = rand() % 2;
-		qDebug() << "fuck" << endl;
-	}//
 	for (int i = 1; i < (int)nodes.size(); i++)
 	{
 		Edge *edge = new Edge(nodes[i - 1], nodes[i]);
@@ -124,7 +133,6 @@ void AnswerWidget::repaint(int ifcontructor)
 
 		bool kind = getEdgeKind(nodes[i - 1]);
 		QString n = kind ? "*" : "+";
-		qDebug() << n << " ";
 		scene()->addItem(edge);
 
 		double x = (nodes[i - 1]->x() + nodes[i]->x()) / 2;
@@ -139,7 +147,6 @@ void AnswerWidget::repaint(int ifcontructor)
 		int i = nodes.size();
 		bool kind = getEdgeKind(nodes[i - 1]);
 		QString n = kind ? "*" : "+";
-		qDebug() << n << " ";
 		scene()->addItem(edge);
 
 		double x = (nodes[i - 1]->x() + nodes[0]->x()) / 2;
@@ -149,20 +156,19 @@ void AnswerWidget::repaint(int ifcontructor)
 }
 
 
-
-void AnswerWidget::changeNode(QGraphicsItem* sourceItem, QGraphicsItem *destItem)
+void AnswerWidget::changeNode(NodeData& sourceItem)
 {
 
 	int _v = INT_MAX;
 	bool sourKind = false;
-
+	NodeData destItem;
 	for (auto i = nodesData.begin(); i != nodesData.end(); i++)
 	{
-		if (isSame(i->x, sourceItem->x()) && isSame(i->y, sourceItem->y()))
+		if (isSame(i->x, sourceItem.x) && isSame(i->y, sourceItem.y))
 		{
-			//qDebug() << item->x() << ":" << item->y() << '\n';
 			_v = i->v;
 			sourKind = getEdgeKind(*i);
+			destItem = *(i + 1);
 			nodesData.erase(i);
 			break;
 		}
@@ -170,12 +176,10 @@ void AnswerWidget::changeNode(QGraphicsItem* sourceItem, QGraphicsItem *destItem
 
 	for (auto i = nodesData.begin(); i != nodesData.end(); i++)
 	{
-		if (isSame(i->x, destItem->x()) && isSame(i->y, destItem->y()))
+		if (isSame(i->x, destItem.x) && isSame(i->y, destItem.y))
 		{
-			//qDebug() << item->x() << ":" << item->y() << '\n';
 			if (_v == INT_MAX) assert(-1);
 
-			//bool kind = getEdgeKind(*i);
 			if (sourKind)
 			{
 				(*i).v *= _v;
@@ -189,12 +193,21 @@ void AnswerWidget::changeNode(QGraphicsItem* sourceItem, QGraphicsItem *destItem
 	}
 }
 
-void AnswerWidget::ChangeInFirstTime(QGraphicsItem *item)
+
+void AnswerWidget::ChangeInFirstTime(NodeData &nodedata)
 {
-	QVector<NodeData> temp;
-	//if()
-	qDebug() << item->x() << "|" << item->y() << '\n';
-	while (!(isSame(nodesData.front().x, item->x()) && isSame(nodesData.front().y, item->y())))
+	NodeData node_data;
+	for (int i = 0; i < (int)nodesData.size();i++)
+	{
+		if(isSame(nodedata.x, nodesData[i].x) && isSame(nodedata.y, nodesData[i].y))
+		{
+			node_data = nodesData[i + 1];
+			break;
+		}
+	}
+
+	while (!(isSame(node_data.x,nodesData.front().x) 
+		&& isSame(node_data.y,nodesData.front().y)))
 	{
 		auto t = nodesData.front(); nodesData.erase(nodesData.begin());
 		nodesData.push_back(t);
@@ -203,38 +216,49 @@ void AnswerWidget::ChangeInFirstTime(QGraphicsItem *item)
 	return;
 }
 
+
 void AnswerWidget::clickBeforeStepButton()
 {
 	if (changeTime == 1) return;
 	if (changeTime == 2)
 	{
-		delete theFirstEdge;
-		theFirstEdge = nullptr;
+
+		// ÖØÖÃ
+		int _finalans = 0;
+		while (!ansData.empty())
+		{
+			ansData.pop();
+		}
+
+		nodesData = constNodesdata;
+		std::vector<NodeData> temp = SolveProblem::getAnswer(constNodesdata, _finalans);
+		qDebug() << _finalans << endl;
+		for (int i = temp.size() - 1; i >= 0; i--)
+		{
+			ansData.push(temp[i]);
+		}
+		clickNextFlagForFirst = 0;
 		changeTime--;
 		repaint();
+		// ÖØÖÃ --
 		return;
-		//scene()->addItem(theFirstEdge);
 
 	}
 	if (changeTime > 2)
 	{
-		//Edge* t = backsData.top();
-		//backsData.pop();
+
 		auto t = backsData1.top();
 		backsData1.pop();
+		ansData.push(t.first);
 
 		for (auto i = nodesData.begin(); i != nodesData.end(); i++)
 		{
-			//double x1 = t->sourceNode()->x();
-			//double y1 = t->sourceNode()->y();
-			//double x2 = t->destNode()->x();
-			//double y2 = t->destNode()->y();
+
 
 
 			if (isSame(i->x, t.second.x)
 				&& isSame(i->y, t.second.y))
 			{
-				//i->v -= 10000;
 				bool k = t.first.kind;
 				int bv = t.first.v;
 				if (k)
@@ -245,7 +269,6 @@ void AnswerWidget::clickBeforeStepButton()
 				{
 					i->v -= bv;
 				}
-				//nodesData.insert(i , { t->sourceNode()->x(),t->sourceNode()->y(),t->sourceNode()->getvalue() });
 				nodesData.insert(i, t.first);
 				break;
 			}
@@ -255,93 +278,54 @@ void AnswerWidget::clickBeforeStepButton()
 
 	changeTime--;
 
+}
 
-	qDebug() << "before step" << '\n';
+void AnswerWidget::clickNextStepButton()
+{
+	if (ansData.empty())
+	{
+		return;
+	}
+	
+	if(clickNextFlagForFirst == 0)
+	{
+		NodeData l = ansData.top();
+		ansData.pop();
+		ChangeInFirstTime(l);
+		changeTime++;
+		repaint();
+		clickNextFlagForFirst++;
+	}
+	else
+	{
+		NodeData l = ansData.top();
+		ansData.pop();
+
+		putStack1(l);
+		changeNode(l);
+		changeTime++;
+
+		repaint();
+	}
+;
+		//}
 }
 
 
-//void GraphWidget::mousePressEvent(QMouseEvent* event)
-//{
-//	if (QGraphicsItem *item = itemAt(event->pos())) {
-//		qDebug() << "You clicked on item" << item;
-//		//this->setDisabled(true);
-//		if (Edge *edge = qgraphicsitem_cast<Edge *>(item))
-//		{
-//			scene()->removeItem(item);
-//
-//			if (changeTime == 1)
-//			{
-//				ChangeInFirstTime(edge->destNode());
-//				delete theFirstEdge;
-//				theFirstEdge = new Edge(edge->sourceNode(), edge->destNode());
-//
-//			}
-//			else
-//			{
-//				//qDebug() << edge->sourceNode()->x() << ":" << edge->sourceNode()->y() << "-------"<<'\n';
-//
-//
-//
-//				//backsData.push(temp);
-//				putStack1(edge->sourceNode(), edge->destNode());
-//				changeNode(edge->sourceNode(), edge->destNode());
-//
-//
-//			}
-//			changeTime++;
-//			repaint();
-//		}
-//
-//
-//	}
-//	else {
-//		qDebug("You didn't click on an item.");
-//	}
-//}
-
-
-//
-//
-//
-//void GraphWidget::putStack(QGraphicsItem *item,int v1,QGraphicsItem*item2,int v2)
-//{
-//	// 1.0
-//	qDebug() << item->x() << ":" << item->y() << "----"<<'\n';
-//	double sx = item->x(), sy = item->y();
-//	double ex = item2->x(), ey = item2->y();
-//	Node* s = new Node(this); s->setPos(sx, sy); s->setvalue(v1);
-//	Node* e = new Node(this); e->setPos(ex, ey); e->setvalue(v2);
-//	qDebug() << sx << ":" << sy << "----" << '\n';
-//	Edge* edge = new Edge(s, e);
-//	// 1.0
-//
-//
-//	//backsData.push(edge);
-//}
-
-
-void AnswerWidget::putStack1(QGraphicsItem *item, QGraphicsItem* item2)
+void AnswerWidget::putStack1(NodeData &item)
 {
 	NodeData n1, n2;
-	for (auto a : nodesData)
+
+	for (int i = 0; i < (int)nodesData.size() - 1;i++)
 	{
-		if (isSame(item->x(), a.x)
-			&& isSame(item->y(), a.y))
+		if (isSame(item.x, nodesData[i].x)
+			&& isSame(item.y, nodesData[i].y))
 		{
-			n1 = a;
-			break;
+			n1 = nodesData[i];
+			n2 = nodesData[i + 1];
 		}
 	}
 
-	for (auto a : nodesData)
-	{
-		if (isSame(item2->x(), a.x)
-			&& isSame(item2->y(), a.y))
-		{
-			n2 = a;
-			break;
-		}
-	}
 
 	backsData1.push({ n1,n2 });
 }

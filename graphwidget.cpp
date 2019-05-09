@@ -20,7 +20,7 @@ GraphWidget::GraphWidget(std::vector<NodeData> node_datas, QWidget* parent)
 		nodesData.push_back(a);
 
 
-	constNodesdata = nodesData;
+
 
 	beforeStepButton.setParent(this);
 	beforeStepButton.setText("before step");
@@ -38,7 +38,7 @@ GraphWidget::GraphWidget(std::vector<NodeData> node_datas, QWidget* parent)
 	paintInit();
 	repaint(1);
 	scene()->addText("wdnmd");
-
+	constNodesdata = nodesData;
 
 }
 

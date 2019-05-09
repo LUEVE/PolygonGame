@@ -11,7 +11,7 @@ void createData(int n,int len)
 	{
 		double x = len* cos(i * 2*pi*1.0 / n);
 		double y = len* sin(i * 2*pi*1.0 / n);
-		int v = rand() % 100 + 1;
+		int v = rand() % 10 + 1;
 		nodesData.push_back({ x,y,v });
 	}
 	
@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 	QApplication a(argc, argv);
 	Gameplay w;
 
-	createData(8,200);
+	createData(12,200);
 	GraphWidget *widget = new GraphWidget(nodesData);
 	
 

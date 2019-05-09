@@ -10,5 +10,6 @@
 #include <map>
 #include <QPushButton>
 #include <QGraphicsView>
-
+#include <functional>
+#include <cassert>
 #endif PCH_H
