@@ -18,22 +18,6 @@ GraphWidget::GraphWidget(std::vector<NodeData> node_datas, QWidget* parent)
 {
 	for (auto a : node_datas)
 		nodesData.push_back(a);
-
-
-
-
-	beforeStepButton.setParent(this);
-	beforeStepButton.setText("before step");
-	beforeStepButton.setFont(QFont("",20));
-	beforeStepButton.show();
-	connect(&beforeStepButton, SIGNAL(clicked()), this, SLOT(clickBeforeStepButton()));
-
-	answerButton.setParent(this);
-	answerButton.setText("answer");
-	answerButton.setFont(QFont("", 20));
-	answerButton.move(200, 0);
-	answerButton.show();
-	connect(&answerButton, SIGNAL(clicked()), this, SLOT(clickAnswerButton()));
 	
 	paintInit();
 	repaint(1);
@@ -126,11 +110,11 @@ void GraphWidget::repaint(int ifcontructor)
 
 		scene()->addText(QString::number(nodesData[i].v),font)->setPos({ nodesData[i].x, nodesData[i].y });
 	}
-	//
+	/**
 	if (ifcontructor) {
 		for (auto &a : nodesData) a.kind = rand()%2;
 		qDebug() << "fuck" << endl;
-	}//
+	}*/
 	for (int i = 1;i < (int)nodes.size();i++)
 	{
 		Edge *edge = new Edge(nodes[i - 1], nodes[i]);

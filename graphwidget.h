@@ -59,8 +59,6 @@ private:
 	std::vector < NodeData> nodesData;
 
 	std::stack<pnn> backsData1;
-	QPushButton beforeStepButton;
-	QPushButton answerButton;
 	int changeTime;
 	Edge *theFirstEdge;
 	QMainWindow q;
