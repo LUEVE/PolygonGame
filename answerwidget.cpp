@@ -201,7 +201,7 @@ void AnswerWidget::ChangeInFirstTime(NodeData &nodedata)
 	{
 		if(isSame(nodedata.x, nodesData[i].x) && isSame(nodedata.y, nodesData[i].y))
 		{
-			node_data = nodesData[i + 1];
+			node_data = nodesData[(i + 1) % nodesData.size()];
 			break;
 		}
 	}

@@ -126,11 +126,11 @@ void GraphWidget::repaint(int ifcontructor)
 
 		scene()->addText(QString::number(nodesData[i].v),font)->setPos({ nodesData[i].x, nodesData[i].y });
 	}
-	//
-	if (ifcontructor) {
-		for (auto &a : nodesData) a.kind = rand()%2;
-		qDebug() << "fuck" << endl;
-	}//
+	//// //
+	//// if (ifcontructor) {
+	//// 	for (auto &a : nodesData) a.kind = rand()%2;
+	//// 	qDebug() << "fuck" << endl;
+	//// }//
 	for (int i = 1;i < (int)nodes.size();i++)
 	{
 		Edge *edge = new Edge(nodes[i - 1], nodes[i]);
