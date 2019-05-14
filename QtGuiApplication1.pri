@@ -7,18 +7,20 @@
 message("You are running qmake on a generated .pro file. This may not work!")
 
 
-HEADERS += ./edge.h \
+HEADERS += ./solveProblem.h \
+    ./edge.h \
     ./node.h \
     ./nodeData.h \
     ./pch.h \
+    ./answerwidget.h \
     ./gameplay.h \
-    ./graphwidget.h \
-    ./answerwidget.h
+    ./graphwidget.h
 SOURCES += ./answerwidget.cpp \
     ./edge.cpp \
+    ./gameplay.cpp \
     ./graphwidget.cpp \
     ./main.cpp \
     ./node.cpp \
-    ./gameplay.cpp
+    ./solveProblem.cpp
 FORMS += ./QtGuiApplication1.ui
 RESOURCES += QtGuiApplication1.qrc

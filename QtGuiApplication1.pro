@@ -7,14 +7,20 @@ TARGET = QtGuiApplication1
 DESTDIR = ../x64/Debug
 QT += core opengl gui widgets openglextensions
 CONFIG += debug
-DEFINES += _UNICODE WIN64 QT_DLL QT_OPENGL_LIB QT_OPENGLEXTENSIONS_LIB QT_WIDGETS_LIB
-INCLUDEPATH += ./GeneratedFiles \
+DEFINES += _WINDOWS _UNICODE WIN64 _UNICODE WIN64 QT_DLL QT_OPENGL_LIB QT_OPENGLEXTENSIONS_LIB QT_WIDGETS_LIB QT_OPENGL_LIB QT_WIDGETS_LIB QT_OPENGLEXTENSIONS_LIB
+INCLUDEPATH += ./GeneratedFiles/$(ConfigurationName) \
+    ./GeneratedFiles \
     . \
-    ./GeneratedFiles/$(ConfigurationName)
-LIBS += -lopengl32 \
+    ./GeneratedFiles \
+    ./GeneratedFiles/$(ConfigurationName) \
+    $(QTDIR)/mkspecs/win32-msvc
+LIBS += -L"../../../../../../utils/my_sql/my_sql/lib" \
+    -L"../../../../../../utils/postgresql/pgsql/lib" \
+    -lshell32 \
+    -lopengl32 \
     -lglu32
 DEPENDPATH += .
-MOC_DIR += ./GeneratedFiles/$(ConfigurationName)
+MOC_DIR += ./GeneratedFiles
 OBJECTS_DIR += debug
 UI_DIR += ./GeneratedFiles
 RCC_DIR += ./GeneratedFiles
