@@ -25,13 +25,6 @@ std::vector<NodeData> SolveProblem::getAnswer(std::vector<NodeData> node_datas,i
 		if (v < 0) v += n;
 		return v;
 	};
-	auto dec = [&](int v, int i) {
-		v -= i;
-		v %= n;
-		if (v < 0) v += n;
-		return v;
-	};
-
 
 	for (int i = 0; i < n; ++i) {
 		int v, k;

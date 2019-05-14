@@ -35,21 +35,13 @@ private:
 public slots:
 	void clickBeforeStepButton();
 	void clickAnswerButton();
-	//void shuffle();
-	//void zoomIn();
-	//void zoomOut();
+;
 
 protected:
-	//void keyPressEvent(QKeyEvent *event) override;
-	//void timerEvent(QTimerEvent *event) override;
 #if QT_CONFIG(wheelevent)
-	//void wheelEvent(QWheelEvent *event) override;
 #endif
-	//void drawBackground(QPainter *painter, const QRectF &rect) override;
 	void mousePressEvent(QMouseEvent* event) override;
-	//void putStack(QGraphicsItem* item,int v1, QGraphicsItem* item2,int v2);
 	void putStack1(QGraphicsItem* item, QGraphicsItem* item2);
-	//void scaleView(qreal scaleFactor);
 
 private:
 	using pdd = std::pair<double, double>;

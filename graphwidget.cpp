@@ -21,7 +21,6 @@ GraphWidget::GraphWidget(std::vector<NodeData> node_datas, QWidget* parent)
 	
 	paintInit();
 	repaint(1);
-	scene()->addText("wdnmd");
 	constNodesdata = nodesData;
 
 }
@@ -74,7 +73,7 @@ bool GraphWidget::getEdgeKind(Node* node)
 	if(flag)
 		return kind;
 	assert(-1);
-	qDebug() << "diao-------" << '\n';
+	//qDebug() << "diao-------" << '\n';
 	return false;
 }
 
@@ -137,7 +136,7 @@ void GraphWidget::repaint(int ifcontructor)
 		int i = nodes.size();
 		bool kind = getEdgeKind(nodes[i - 1]);
 		QString n = kind ? "*" : "+";
-		qDebug() << n << " ";
+		//qDebug() << n << " ";
 		scene()->addItem(edge);
 		
 		double x = (nodes[i - 1]->x() + nodes[0]->x()) / 2;
@@ -270,7 +269,7 @@ void GraphWidget::clickAnswerButton()
 void GraphWidget::mousePressEvent(QMouseEvent* event)
 {
 	if (QGraphicsItem *item = itemAt(event->pos())) {
-		qDebug() << "You clicked on item" << item;
+		//qDebug() << "You clicked on item" << item;
 		//this->setDisabled(true);
 		if (Edge *edge = qgraphicsitem_cast<Edge *>(item))
 		{
