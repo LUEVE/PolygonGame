@@ -47,12 +47,10 @@ void GraphWidget::paintInit()
 	setMinimumSize(400, 400);
 	setWindowTitle(tr("Elastic Nodes"));
 
-	// init
 }
 
 bool GraphWidget::getEdgeKind(Node* node)
 {
-	//NodeData nd;
 	int flag = 0;
 	int kind = -1;
 	double tx = node->x();
@@ -73,7 +71,6 @@ bool GraphWidget::getEdgeKind(Node* node)
 	if(flag)
 		return kind;
 	assert(-1);
-	//qDebug() << "diao-------" << '\n';
 	return false;
 }
 
@@ -109,11 +106,7 @@ void GraphWidget::repaint(int ifcontructor)
 
 		scene()->addText(QString::number(nodesData[i].v),font)->setPos({ nodesData[i].x, nodesData[i].y });
 	}
-	//// //
-	//// if (ifcontructor) {
-	//// 	for (auto &a : nodesData) a.kind = rand()%2;
-	//// 	qDebug() << "fuck" << endl;
-	//// }//
+
 	for (int i = 1;i < (int)nodes.size();i++)
 	{
 		Edge *edge = new Edge(nodes[i - 1], nodes[i]);
@@ -157,7 +150,6 @@ void GraphWidget::changeNode(QGraphicsItem* sourceItem,QGraphicsItem *destItem)
 	{
 		if(isSame(i->x,sourceItem->x()) && isSame(i->y,sourceItem->y()))
 		{
-			//qDebug() << item->x() << ":" << item->y() << '\n';
 			_v = i->v;
 			sourKind = getEdgeKind(*i);
 			nodesData.erase(i);
@@ -169,10 +161,8 @@ void GraphWidget::changeNode(QGraphicsItem* sourceItem,QGraphicsItem *destItem)
 	{
 		if (isSame(i->x, destItem->x()) && isSame(i->y, destItem->y()))
 		{
-			//qDebug() << item->x() << ":" << item->y() << '\n';
 			if (_v == INT_MAX) assert(-1);
 
-			//bool kind = getEdgeKind(*i);
 			if (sourKind)
 			{
 				(*i).v *= _v;
@@ -189,7 +179,6 @@ void GraphWidget::changeNode(QGraphicsItem* sourceItem,QGraphicsItem *destItem)
 void GraphWidget::ChangeInFirstTime(QGraphicsItem *item)
 {
 	QVector<NodeData> temp;
-	//if()
 	qDebug() << item->x() << "|" << item->y() << '\n';
 	while (!(isSame(nodesData.front().x,item->x()) && isSame(nodesData.front().y,item->y())))
 	{
@@ -210,28 +199,20 @@ void GraphWidget::clickBeforeStepButton()
 		changeTime--;
 		repaint();
 		return;
-		//scene()->addItem(theFirstEdge);
 		
 	}
 	if(changeTime > 2)
 	{
-		//Edge* t = backsData.top();
-		//backsData.pop();
 		auto t = backsData1.top();
 		backsData1.pop();
 
 		for (auto i = nodesData.begin(); i != nodesData.end() ; i++)
 		{
-			//double x1 = t->sourceNode()->x();
-			//double y1 = t->sourceNode()->y();
-			//double x2 = t->destNode()->x();
-			//double y2 = t->destNode()->y();
 
 
 			if(isSame(i->x,t.second.x) 
 				&& isSame(i->y,t.second.y))
 			{
-				//i->v -= 10000;
 				bool k = t.first.kind;
 				int bv = t.first.v;
 				if(k)
@@ -242,7 +223,6 @@ void GraphWidget::clickBeforeStepButton()
 				{
 					i->v -= bv;
 				}
-				//nodesData.insert(i , { t->sourceNode()->x(),t->sourceNode()->y(),t->sourceNode()->getvalue() });
 				nodesData.insert(i, t.first);
 				break;
 			}
@@ -269,8 +249,6 @@ void GraphWidget::clickAnswerButton()
 void GraphWidget::mousePressEvent(QMouseEvent* event)
 {
 	if (QGraphicsItem *item = itemAt(event->pos())) {
-		//qDebug() << "You clicked on item" << item;
-		//this->setDisabled(true);
 		if (Edge *edge = qgraphicsitem_cast<Edge *>(item))
 		{
 			scene()->removeItem(item);
@@ -284,11 +262,6 @@ void GraphWidget::mousePressEvent(QMouseEvent* event)
 			}
 			else
 			{
-				//qDebug() << edge->sourceNode()->x() << ":" << edge->sourceNode()->y() << "-------"<<'\n';
-				
-
-				
-				//backsData.push(temp);
 				putStack1(edge->sourceNode(), edge->destNode());
 				changeNode(edge->sourceNode(), edge->destNode());
 
@@ -306,24 +279,6 @@ void GraphWidget::mousePressEvent(QMouseEvent* event)
 }
 
 
-//
-//
-//
-//void GraphWidget::putStack(QGraphicsItem *item,int v1,QGraphicsItem*item2,int v2)
-//{
-//	// 1.0
-//	qDebug() << item->x() << ":" << item->y() << "----"<<'\n';
-//	double sx = item->x(), sy = item->y();
-//	double ex = item2->x(), ey = item2->y();
-//	Node* s = new Node(this); s->setPos(sx, sy); s->setvalue(v1);
-//	Node* e = new Node(this); e->setPos(ex, ey); e->setvalue(v2);
-//	qDebug() << sx << ":" << sy << "----" << '\n';
-//	Edge* edge = new Edge(s, e);
-//	// 1.0
-//
-//
-//	//backsData.push(edge);
-//}
 
 
 void GraphWidget::putStack1(QGraphicsItem *item,QGraphicsItem* item2)

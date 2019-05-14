@@ -7,14 +7,20 @@
 
 std::vector<NodeData> nodesData;
 const double pi = 3.1415926;
+
+#define RANGE_INT_T 10
+
+
+
 void createData(int n, int len)
 {
+	const int range = RANGE_INT_T - 1;
 	nodesData.clear();
 	for (int i = 0; i < n; i++)
 	{
 		double x = len* cos(i * 2 * pi*1.0 / n);
 		double y = len* sin(i * 2 * pi*1.0 / n);
-		int v = rand() % 10 + 1;
+		int v = rand() % range + 1;
 		bool k = rand() % 2;
 		nodesData.push_back({ x,y,v,k });
 	}

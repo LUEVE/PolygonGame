@@ -6,8 +6,6 @@
 Node::Node(GraphWidget* graphWidget)
 	:graph(graphWidget)
 {
-	//setFlag(ItemIsMovable);
-	//setFlag(ItemSendsGeometryChanges);
 	setCacheMode(DeviceCoordinateCache);
 	setZValue(-1);
 }
@@ -15,8 +13,6 @@ Node::Node(GraphWidget* graphWidget)
 Node::Node(AnswerWidget* answerwidget)
 	:graphA(answerwidget)
 {
-	//setFlag(ItemIsMovable);
-//setFlag(ItemSendsGeometryChanges);
 	setCacheMode(DeviceCoordinateCache);
 	setZValue(-1);
 }

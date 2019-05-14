@@ -82,9 +82,7 @@ std::vector<NodeData> SolveProblem::getAnswer(std::vector<NodeData> node_datas,i
 		assert(false);
 	};
 	backtrack(ansl, ansr, mx[ansl][ansr]);
-	//assert(tmp.size() == n);
 	path = tmp;
-	//cout << ans << '\n';
 	std::vector<NodeData> ans_datas;
 	for (auto i : path)
 	{

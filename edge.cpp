@@ -25,9 +25,7 @@ void Edge::adjust()
 	QLineF line(mapFromItem(source, 0, 0), mapFromItem(dest, 0, 0));
 	qreal length = line.length();
 
-	//prepareGeometryChange();
 
-		//QPointF edgeOffset((line.dx() * 10) / length, (line.dy() * 10) / length);
 		sourcePoint = line.p1();
 		destPoint = line.p2();
 }
@@ -40,8 +38,6 @@ void Edge::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
 	painter->drawLine(line);
 	painter->setBrush(Qt::black);
 
-	//painter->drawPolygon(QPolygonF() << line.p1());
-	//painter->drawPolygon(QPolygonF() << line.p2());
 }
 
 void Edge::mousePressEvent(QGraphicsSceneMouseEvent* event)
@@ -51,21 +47,10 @@ void Edge::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
 Edge::Edge(Node* sourceNode, Node* destNode)
 {
-//	setAcceptedMouseButtons(0);
 	source = sourceNode;
 	dest = destNode;
 	adjust();
-	//source->addEdge(this);
-	//dest->addEdge(this);
 }
-
-// Edge::Edge(const Edge& e)
-//{
-//	source = e.source;
-//	dest = e.dest;
-//	adjust();
-//}
-
 Node *Edge::sourceNode() const
 {
 	return source;

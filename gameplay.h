@@ -16,9 +16,7 @@ class Gameplay : public QMainWindow
 
 public:
 	Gameplay(QWidget *parent = Q_NULLPTR);
-	//paintEvent(QPaintEvent *event);
 private:
-//	Ui::QtGuiApplication1Class ui;
 	GraphWidget *widget;
 
 	QMenuBar * mBar;

@@ -17,20 +17,14 @@ public:
 	void paintInit();
 	bool getEdgeKind(Node* node);
 	bool getEdgeKind(NodeData nodedata);
-	//bool getEdgeKind(NodeData nodedata);
-	//bool getEdgeKind(NodeData node_data);
 
 	GraphWidget(std::vector<NodeData> node_datas, QWidget *parent = 0);
 	virtual ~GraphWidget();
 
 private:
 	void repaint(int ifcontructor = 0);
-	//void paintSym(QVector<Node*> nodes, Edge* edge);
 	void changeNode(QGraphicsItem* sourceItem, QGraphicsItem* destItem);
-	//void repainInBegin();
 	void ChangeInFirstTime(QGraphicsItem* item);
-
-	//void itemMoved();
 
 public slots:
 	void clickBeforeStepButton();
@@ -49,7 +43,6 @@ private:
 	int timerId;
 	std::vector<NodeData> constNodesdata;
 	std::vector < NodeData> nodesData;
-
 	std::stack<pnn> backsData1;
 	int changeTime;
 	Edge *theFirstEdge;

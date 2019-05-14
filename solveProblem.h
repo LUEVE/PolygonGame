@@ -7,7 +7,6 @@
 class SolveProblem
 {
 public:
-	//static std::vector<NodeData> getAnswer(std::vector<NodeData> node_datas);
 	static std::vector<NodeData> getAnswer(std::vector<NodeData> node_datas, int& _ans);
 private:
 	struct node {

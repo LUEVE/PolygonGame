@@ -59,7 +59,6 @@ AnswerWidget::~AnswerWidget()
 
 void AnswerWidget::paintInit()
 {
-	// init
 	QGraphicsScene *_scene = new QGraphicsScene(this);
 	_scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 	_scene->setSceneRect(-200, -200, 400, 400);
@@ -72,12 +71,10 @@ void AnswerWidget::paintInit()
 	setMinimumSize(400, 400);
 	setWindowTitle(tr("Elastic Nodes"));
 
-	// init
 }
 
 bool AnswerWidget::getEdgeKind(Node* node)
 {
-	//NodeData nd;
 	int flag = 0;
 	int kind = -1;
 	double tx = node->x();
@@ -308,7 +305,6 @@ void AnswerWidget::clickNextStepButton()
 		repaint();
 	}
 ;
-		//}
 }
 
 
